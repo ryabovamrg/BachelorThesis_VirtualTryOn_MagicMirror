@@ -58,30 +58,46 @@ some random 3d primitives to the scene.
 Quit button
 
 ## UI
-[ Main menu buttons ]
-“Settings” _______ Opens settings tab
-“Environment” ____ Opens environment variants tab
-“Outfits” ________ Opens outfit selecting tab
-“Quit” __________ Shuts down the application
+[ Main menu buttons: ]
+| Button | Action |
+| ------ | ------ |
+| Settings | Opens settings tab |
+| Environment | Opens environment variants ta |
+| Outfits | Opens outfit selecting tab |
+| Quit | Shuts down the application |
 
-[ Settings tab ]
-“Camera” ____________ Static/dynamic Changes camera mode
-”Off-Axis Settings” ______ Contains adjustments of the screen relatively to Kinect device position
-“Debugging” __________ Toggles various debugging tools
-“Miscellaneous” ________ Several miscellaneous tweaks
-“Hand cursors” _________ Gesture input settings
+[ Settings tab: ]
+| Button | Action |
+| ------ | ------ |
+| Camera - static/dynamic | Changes camera mode |
+| Off-Axis Settings | Contains adjustments of the screen relatively to Kinect device positio |
+| Debugging | Toggles various debugging tool |
+| Miscellaneous | Several miscellaneous tweaks |
+| Hand cursors | Gesture input settings |
 
-[Environment tab]
-”Kinect visualization” ______ Switches between flat screen or point cloud visualisation
-”Rooms” _______________ Room Selection; better to use it with point cloud with removed background
+[ Environment tab: ]
 
-[Outfits tab]
-Body type selector _______ Select most suitable body type
-- Body adjustment buttons:
-“Reset body” ___________ Resets body adjustment
-“Adjust body” __________ Adjusts body proportions to improve visualization quality
-Category toggle _________ Filter outfits by enabling or disabling its categories
-Outfit buttons __________ Equip or ”unequip” an outfit
-- Debug panel:
-   - Is enabled in settings window
-   - Shows fps and visualizes internal dat
+| Button | Action |
+| ------ | ------ |
+| Kinect visualization | Switches between flat screen or point cloud visualisation |
+| Rooms | Room Selection; better to use it with point cloud with removed background |
+
+
+[ Outfits tab: ]
+
+| Button | Action |
+| ------ | ------ |
+| Body type selector | Select most suitable body typ |
+
+Body adjustment buttons:
+| Button | Action |
+| ------ | ------ |
+|Reset body | Resets body adjustment|
+| Adjust body | Adjusts body proportions to improve visualization quality |
+| Category toggle | Filter outfits by enabling or disabling its categories |
+| Outfit buttons | Equip or ”unequip” an outfit |
+
+
+[ Debug panel: ]
+- Is enabled in settings window
+- Shows fps and visualizes internal data
