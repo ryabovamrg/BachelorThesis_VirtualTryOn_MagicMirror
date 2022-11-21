@@ -1,0 +1,75 @@
+﻿#pragma kernel MakeDepthTexture
+#pragma kernel MakeBodyIndexTexture
+#pragma kernel PositionBaker
+
+int colorFrameWidth, colorFrameHeight;
+int depthFrameWidth, depthFrameHeight;
+int depthMinReliable, depthMaxReliable;
+
+// ====================================================================== making depth texture ====v
+StructuredBuffer<float> depthData_buffer;
+RWTexture2D<float> depthData_RWTexture2d;  // monochrome image
+
+
+[numthreads(64, 1, 1)]
+void MakeDepthTexture(uint3 threadId : SV_DispatchThreadID){
+    const uint nThreads = 64 * 1 * 1;
+    uint threadId_int =  threadId.x;
+
+    uint pixelsPerThread = depthFrameWidth * depthFrameHeight / nThreads;
+    uint start_idx = pixelsPerThread * threadId_int;
+    uint end_idx   = pixelsPerThread * (threadId_int + 1) - 1;
+
+    for(uint i = start_idx; i <= end_idx; i++) {
+        float intensity = (depthData_buffer[i] - depthMinReliable) / (float) depthMaxReliable;
+        depthData_RWTexture2d[uint2(i % depthFrameWidth, i / depthFrameWidth)] = intensity;
+    }
+}
+
+// ================================================================= making body index texture ====x
+StructuredBuffer<float> bodyIndex_buffer;
+RWTexture2D<float4> bodyIndex_RWTexture2d;
+
+[numthreads(64, 1, 1)]
+void MakeBodyIndexTexture(uint3 threadId : SV_DispatchThreadID){
+    const uint nThreads = 64 * 1 * 1;
+    uint threadId_int =  threadId.x;
+
+    uint pixelsPerThread = depthFrameWidth * depthFrameHeight / nThreads;
+    uint start_idx = pixelsPerThread * threadId_int;
+    uint end_idx   = pixelsPerThread * (threadId_int + 1) - 1;
+
+    for(uint i = start_idx; i <= end_idx; i++) {
+        float intensity = 255.0f - bodyIndex_buffer[i];
+        float4 color = { intensity, intensity, intensity, 1.0f };
+        bodyIndex_RWTexture2d[uint2(i % depthFrameWidth, i / depthFrameWidth)] = color;
+    }
+}
+
+
+
+// ======================================================== bake positions and UVs in textures ====v
+RWTexture2D<float4> pointPositionsBaked_RWTexture2d;    // 512x424
+RWTexture2D<float2> pointUvBaked_RWTexture2d;           // 512x424
+
+StructuredBuffer<float3> cameraSpacePositions_buffer;  // positions
+StructuredBuffer<float2> colorSpaceCoordinates_buffer; // UVs
+
+[numthreads(64, 1, 1)]
+void PositionBaker(uint3 threadId : SV_DispatchThreadID){
+    const uint nThreads = 64 * 1 * 1;
+    uint threadId_int =  threadId.x;
+
+    uint pixelsPerThread = depthFrameWidth * depthFrameHeight / nThreads;
+    uint start_idx = pixelsPerThread * threadId_int;
+    uint end_idx   = pixelsPerThread * (threadId_int + 1) - 1;
+
+    for(uint i = start_idx; i <= end_idx; i++) {
+        uint2 idx = uint2(i % depthFrameWidth, i / depthFrameWidth);
+
+        pointPositionsBaked_RWTexture2d[idx] = float4(cameraSpacePositions_buffer[i], 1.0f);
+        pointUvBaked_RWTexture2d[idx]        = float2(colorSpaceCoordinates_buffer[i].x,// / colorFrameWidth, 
+                                                        colorSpaceCoordinates_buffer[i].y);// / colorFrameHeight);
+                                                        //0, 0);
+    }
+}
