@@ -5,6 +5,8 @@ The quality of thesis solution was considered exceptional and graded with A.
 
 The solution requires an installation of Kinect for Windows SDK 2.0 and Kinect Studio.  MS Kinect v2 is also required for motion tracing.
 
+Watch application demonstration video here: https://drive.google.com/file/d/1zV1jc3yqjjaRrmzMoq9Dd-iiUHN-VOm2/view?usp=sharing
+
 ## User instructions
 
 1. Plug in Kinect v2 to your PC.
